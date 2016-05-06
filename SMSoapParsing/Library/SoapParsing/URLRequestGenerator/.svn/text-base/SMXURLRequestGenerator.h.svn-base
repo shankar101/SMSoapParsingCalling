@@ -1,0 +1,16 @@
+//
+//  SMXURLRequestGenerator.h
+//  SOMAX
+//
+//  Created by Utpal Sarkar on 31/03/15.
+//  Copyright (c) 2015 Customer First. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@interface SMXURLRequestGenerator : NSObject
+
++(SMXURLRequestGenerator *)SharedInstance;
+-(NSMutableURLRequest *)createMutableURLRequestWithBody:(NSString *)soapBody;
+
+@end

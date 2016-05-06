@@ -1,0 +1,105 @@
+//
+//  SMXSoapBodyGenerator.h
+//  SOMAX
+//
+//  Created by Utpal Sarkar on 31/03/15.
+//  Copyright (c) 2015 Customer First. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import "NotificationsList.h"
+@class WODWorkOrder;
+@class PartsDetails;
+@class PartFileNameList;
+@class EquipmentsDetails;
+@class EquipmentFileNameList;
+@class NotificationDetails;
+
+@interface SMXSoapBodyGenerator : NSObject
+
++(SMXSoapBodyGenerator *)SharedInstance;
+
+-(NSString *)loginUserId:(NSString*)userId Password:(NSString*)password;
+-(NSString *)logoutWithLoginSessionID;
+
+#pragma mark - Work Order & Work Order Details API
+
+-(NSString *)getWorkOrderListWith_SearchText:(NSString *)searchText SortType:(NSString *)sortType ColumnName:(NSString *)columnName PageNumber:(int)pageNumber IncludeCompleted:(NSString *)includeCompleted;
+-(NSString *)getWorkOrderDetailWith_WorkOrderID:(NSString *)workOrderID;
+-(NSString *)postWorkOrdersCompleteWith_WorkOrderDetails:(WODWorkOrder *)mWODWorkOrder;
+-(NSString *)getWorkOrdersCancelReason;
+-(NSString *)getWorkOrdersFailureCodes;
+-(NSString *)postWorkOrdersCancelWith_WorkOrderDetails:(WODWorkOrder *)mWODWorkOrder;
+-(NSString *)postWorkOrdersCompleteTask_WithTaskIDs:(NSMutableArray *)arrTaskIDs;
+-(NSString *)postWorkOrdersCancelTask_WithTaskIDs:(NSMutableArray *)arrTaskIDs CancelReason:(NSString *)cancelReason;
+
+//labour PersonalId load...
+-(NSString *)getPersonnelIdList;
+//labour add
+-(NSString *)WorkOrderLabourAdd:(NSString *)WorkOredId withHours:(NSString *)_hours withData:(NSString *)_date withPersonalId:(int)_personalIdl;
+//labour delete
+-(NSString *)WorkOrderLabourDelete_WithTimeCardIDs:(NSMutableArray *)arrTimeCardIDs WorkOrderDetails:(WODWorkOrder *)mWODWorkOrder;
+
+-(NSString *)postWorkOrdersPartIssue_WithPartID:(NSString *)partID WorkOrder:(WODWorkOrder *)mWODWorkOrder Quantity:(NSString *)quantity;
+-(NSString *)postWorkOrdersPartReturn_WithPartHistoryIDs:(NSMutableArray *)arrPartHistoryIDs WorkOrder:(WODWorkOrder *)mWODWorkOrder;
+
+#pragma mark - Parts & Parts Details API
+
+-(NSString *)getPartsListWith_SearchText:(NSString *)searchText PageNumber:(int)pageNumber;
+-(NSString *)getPartsDetailWith_PartID:(NSString *)partID;
+-(NSString *)getPartsDetailsAddPartIssueUnit;
+-(NSString *)postPartsDetailAddPartWith_PartDetails:(PartsDetails *)mPartsDetails Bse64image:(NSString *)base64Image;
+-(NSString *)postPartsDetailAddPicture_PartDetails:(PartsDetails *)mPartsDetails Bse64image:(NSString *)base64Image;
+-(NSString *)getPartsDetailsFileNameList:(PartsDetails *)mPartsDetails;
+-(NSString *)getPartsDetailsGetPartFileDetails:(PartFileNameList *)mPartFileNameList;
+-(NSString *)postPartsDetailPartOnHandQtyUpdate_PartDetails:(PartsDetails *)mPartsDetails;
+
+#pragma mark - Add Work Orders API
+
+-(NSString *)getAddWorkChargeType;
+-(NSString *)getAddWorkLocationList;
+-(NSString *)getAddWorkHierarchyEquipmentList;
+-(NSString *)getAddWorkTypeList;
+-(NSString *)postAddWorkOrderV2With_Description:(NSString *)description ChargeType:(NSString *)chargeType ChargeTo:(NSString *)chargeTo Type:(NSString *)type Picture:(NSString *)base64String;
+-(NSString *)postAddWorkRequestV2With_Description:(NSString *)description ChargeType:(NSString *)chargeType ChargeTo:(NSString *)chargeTo Type:(NSString *)type Picture:(NSString *)base64String;
+-(NSString *)postAddEmergencyWorkOrderV2With_WorkOrderID:(NSString *)workOrderID Description:(NSString *)description ChargeType:(NSString *)chargeType ChargeTo:(NSString *)chargeTo Type:(NSString *)type Picture:(NSString *)base64String;
+-(NSString *)postFollowUpWorkOrderV2With_WorkOrderID:(NSString *)workOrderID Description:(NSString *)description ChargeType:(NSString *)chargeType ChargeTo:(NSString *)chargeTo Type:(NSString *)type Picture:(NSString *)base64String;
+
+#pragma mark - Work Request & Work Request Details API
+
+-(NSString *)getWorkRequestListWith_SearchText:(NSString *)searchText SortType:(NSString *)sortType ColumnName:(NSString *)columnName PageNumber:(int)pageNumber;
+-(NSString *)getWorkRequestDetailWith_WorkOrderID:(NSString *)workOrderID;
+
+#pragma mark - Add Work Orders API
+
+-(NSString *)postWorkRequestAddWith_Description:(NSString *)description Picture:(NSString *)base64String;
+
+#pragma mark - Equipment & Equipment Details API
+
+-(NSString *)getEquipmentListWith_SearchText:(NSString *)searchText SortType:(NSString *)sortType ColumnName:(NSString *)columnName PageNumber:(int)pageNumber;
+-(NSString *)getEquipmentsDetailWith_EquipmentID:(NSString *)equipmentID;
+-(NSString *)getEquipmentTypesForAddEquipment;
+-(NSString *)postEquipmentsDetailAddEquipmentWith_EquipmentDetails:(EquipmentsDetails *)mEquipmentsDetails Bse64image:(NSString *)base64Image;
+-(NSString *)postEquipmentsDetailAddPicture_EquipmentDetails:(EquipmentsDetails *)mEquipmentsDetails Bse64image:(NSString *)base64Image;
+-(NSString *)getEquipmentsDetailsFileNameList:(EquipmentsDetails *)mEquipmentsDetails;
+-(NSString *)getEquipmentsDetailsGetEquipmentFileDetails:(EquipmentFileNameList *)mEquipmentFileNameList;
+
+#pragma mark - Notifications, Alerts, Notification & Alert Details API
+
+-(NSString *)getNotificationListWith_PageNumber:(int)pageNumber;
+-(NSString *)postApproveOrDeny_WithAlertDetails:(NotificationsList *)mNotificationList Status:(NSString *)status;
+-(NSString *)postAlertForward_WithAlertDetails:(NotificationsList *)mNotificationList SendToPersonnelID:(NSString *)personnelID Comments:(NSString *)comments;
+-(NSString *)postAlertDelete_WithAlertDetails:(NotificationsList *)mNotificationList;
+-(NSString *)postNotificationForward_WithNotificationDetails:(NotificationsList *)mNotificationsList SendToPersonnelID:(NSString *)personnelID Comments:(NSString *)comments;
+-(NSString *)postNotificationDelete_WithNotificationDetails:(NotificationsList *)mNotificationList;
+-(NSString *)getNotificationDetailsforAlertId:(NSString *)_alertId;
+
+#pragma mark - Delete File API
+
+-(NSString *)postDeleteFileWith_URL:(NSString *)fileURL;
+
+#pragma mark - Push Notification API
+
+-(NSString *)postRegisterDeviceForPushNotification:(NSString *)deviceToken;
+
+@end
